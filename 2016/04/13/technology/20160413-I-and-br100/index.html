@@ -1,0 +1,869 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="OpenWrt,PandoraBox,路由器," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/image/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description" content="智能路由泡沫早在2013年的时候，网上就开始大肆鼓吹，智能路由器是互联网的入口，谁接管了路由器，谁就控制了用户互联网接入的流量。一时间，智能路由器引爆了互联网入口争夺战，于是中国互联网界产生了智能路由器竞赛泡沫，百度，小米，迅雷，极路由，360等各大公司纷纷推出自家的智能路由产品，试图率先抓住机遇。同时网上OpenWrt工程师招聘广告满天飞，这应该是智能路由器开发工程师最火的时候。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="我和小度路由">
+<meta property="og:url" content="http://vigotseng.github.io/2016/04/13/technology/20160413-I-and-br100/index.html">
+<meta property="og:site_name" content="VigoTseng's blog">
+<meta property="og:description" content="智能路由泡沫早在2013年的时候，网上就开始大肆鼓吹，智能路由器是互联网的入口，谁接管了路由器，谁就控制了用户互联网接入的流量。一时间，智能路由器引爆了互联网入口争夺战，于是中国互联网界产生了智能路由器竞赛泡沫，百度，小米，迅雷，极路由，360等各大公司纷纷推出自家的智能路由产品，试图率先抓住机遇。同时网上OpenWrt工程师招聘广告满天飞，这应该是智能路由器开发工程师最火的时候。">
+<meta property="og:updated_time" content="2016-04-16T13:19:22.999Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="我和小度路由">
+<meta name="twitter:description" content="智能路由泡沫早在2013年的时候，网上就开始大肆鼓吹，智能路由器是互联网的入口，谁接管了路由器，谁就控制了用户互联网接入的流量。一时间，智能路由器引爆了互联网入口争夺战，于是中国互联网界产生了智能路由器竞赛泡沫，百度，小米，迅雷，极路由，360等各大公司纷纷推出自家的智能路由产品，试图率先抓住机遇。同时网上OpenWrt工程师招聘广告满天飞，这应该是智能路由器开发工程师最火的时候。">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 6266301114958743000,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 我和小度路由 | VigoTseng's blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">VigoTseng's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">I am the hero of the story!</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-resume">
+          <a href="/resume" rel="section">
+            
+              <i class="menu-item-icon fa fa-file fa-fw"></i> <br />
+            
+            简历
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-message">
+          <a href="/message" rel="section">
+            
+              <i class="menu-item-icon fa fa-heartbeat fa-fw"></i> <br />
+            
+            留言
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                我和小度路由
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-04-13T19:16:11+08:00" content="2016-04-13">
+              2016-04-13
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/技术/" itemprop="url" rel="index">
+                    <span itemprop="name">技术</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/04/13/technology/20160413-I-and-br100/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/13/technology/20160413-I-and-br100/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="智能路由泡沫"><a href="#智能路由泡沫" class="headerlink" title="智能路由泡沫"></a>智能路由泡沫</h2><p>早在2013年的时候，网上就开始大肆鼓吹，智能路由器是互联网的入口，谁接管了路由器，谁就控制了用户互联网接入的流量。一时间，智能路由器引爆了互联网入口争夺战，于是中国互联网界产生了智能路由器竞赛泡沫，百度，小米，迅雷，极路由，360等各大公司纷纷推出自家的智能路由产品，试图率先抓住机遇。同时网上OpenWrt工程师招聘广告满天飞，这应该是智能路由器开发工程师最火的时候。<br><a id="more"></a> </p>
+<h2 id="看中脱机下载"><a href="#看中脱机下载" class="headerlink" title="看中脱机下载"></a>看中脱机下载</h2><p>2014年年底，由于还没有定岗，时间比较充足。曾经一直想玩路由器，可是学校校园网认证用不了路由器，一直没有入手。这次想想既然智能路由这么火，乘时机自己也跟上玩玩。玩路由器，我看中的是脱机下载，因为有大量视频资源要下。那时候，百度涉足硬件领域，打造了客厅三件套，宣传中说结合百度影音，百度云盘，小度WIFI，小度TV，和小度路由打造家庭离线影院。当时想着，百度这么大的公司，实力雄厚，长期支持应该不成问题，不会说不干就不干。于是便入手了小度路由和小度WIFI，因为穷，想着玩玩之后，再入手小度TV。。。</p>
+<h2 id="泡沫破灭"><a href="#泡沫破灭" class="headerlink" title="泡沫破灭"></a>泡沫破灭</h2><p>事后看，当年幸好没入坑。随着智能路由泡沫的的破灭，各大公司纷纷砍掉智能路由项目，百度首当其中，涉足路由领域的第一梯队，也是泡沫破灭后退出的第一个梯队。接着，路由器固件不再更新。同时中国互联网遇上打击盗版，保护知识产权的互联网大清理、大扫黄运动。为配合政府，百度影音自觉关停P2P分享，百度影音没落；接着百度云盘资料被删除，下载限速。。。</p>
+<h2 id="借给同事"><a href="#借给同事" class="headerlink" title="借给同事"></a>借给同事</h2><p>当初入手的时候，试用了下离线下载功能，下了几部电影。感觉路由管理UI丑陋，并且离线只能下载视频文件，这功能算是鸡肋。不过好在我可以将要下载的文件，改成视频扩展名，让其选择下载。但实在不好用，便搁置在了角落。后来同事路由器坏了，让我推荐个路由器。正好，我说这路由器刚买，我也没用，便要他拿了去。用了两个多月吧，同事就说坏了，他们买了一个，我又拿了回来。一检查，是电源坏了，也不说baidu出品的质量如何，总之，就现在制造工艺而言的话，电子产品良品率已经很高了，只能说我运气实在太差。当时不急着用，我也懒得淘电源了。又一次把它搁置在了角落。</p>
+<h2 id="小度复活"><a href="#小度复活" class="headerlink" title="小度复活"></a>小度复活</h2><p>年前，班长说今年要做个加入网络的嵌入式设备，让我好好构思一下。过年回湖南，在家里找了下大学用的工具。才发现，大学毕业那会嫌沉，扔了大部分，没带回家，主要找到了个交换机，想想能排上用场，上班便带过来。前几天出差回来，无聊，偶然发现了角落的小度路由。正好我有了交换机的电源，就开始玩了起来。OpenWrt官方支持小度路由Br-100，岂不乐哉？</p>
+<h2 id="刷机后干什么"><a href="#刷机后干什么" class="headerlink" title="刷机后干什么"></a>刷机后干什么</h2><p>插上交换机电源，开始刷机，官方提供预编译的PandoraBox固件。<br>要注意的是基于OpenWrt的Pandora分支是开源的，而中国的PandoraBox是闭源的，它的前身是基于OpenWrt开源的DeramBox，DreamBox停止开发后，团队成员加入PandoraBox开发。预编译的PandoraBox加入了特定路由器的各种驱动，同时预装了部分必要软件，稳定性能非常好。刷入强大的PandoraBox后，就是调试和配置了软件了，配置好后，可玩性大大提高。路由器基本玩法，除了科学上网外，还有脱机下载，在YouTube上，有大量优质资源，计划继续折腾：</p>
+<ul>
+<li>把软件安装到U盘上，扩展root分区</li>
+<li>安装shadowsocks代理，用于Windows、Linux、Android科学上网</li>
+<li>安装HTTP代理，用于iOS科学上网</li>
+<li>写个脚本利用vps和路由器，批量下载YouTube视频，7*24小时下载1080P和4K资源；</li>
+<li>做NAS，局域网高速分享</li>
+</ul>
+<p>暂时想到这些，后续如何折腾，再做记录吧！</p>
+<h2 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h2><p>小度路由是我见证中国互联网泡沫的一个印证。现在回头看看这两年中国互联网过山车式的发展，觉得这是个很有意思的时代。在这个瞬息万变的年代里，我们用折腾尽量去跟上时代的步伐吧！</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/OpenWrt/" rel="tag">#OpenWrt</a>
+          
+            <a href="/tags/PandoraBox/" rel="tag">#PandoraBox</a>
+          
+            <a href="/tags/路由器/" rel="tag">#路由器</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/04/02/technology/20160402-myblog/" rel="next" title="建个博客">
+                <i class="fa fa-chevron-left"></i> 建个博客
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/04/14/technology/20160414-br100-pandorabox/" rel="prev" title="小度路由Br-100刷机PandoraBox">
+                小度路由Br-100刷机PandoraBox <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2016/04/13/technology/20160413-I-and-br100/"
+     data-title="我和小度路由"
+     data-content=""
+     data-url="http://vigotseng.github.io/2016/04/13/technology/20160413-I-and-br100/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/04/13/technology/20160413-I-and-br100/"
+           data-title="我和小度路由" data-url="http://vigotseng.github.io/2016/04/13/technology/20160413-I-and-br100/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/image/vigotseng.png"
+               alt="vigotseng" />
+          <p class="site-author-name" itemprop="name">vigotseng</p>
+          <p class="site-description motion-element" itemprop="description">Just for fun!</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://github.com/vigotseng" target="_blank">
+                  
+                    <i class="fa fa-github"></i> GitHub
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://twitter.com/vigotseng" target="_blank">
+                  
+                    <i class="fa fa-twitter"></i> Twitter
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/u/5696153683" target="_blank">
+                  
+                    <i class="fa fa-weibo"></i> Weibo
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.zhihu.com/people/vigotseng" target="_blank">
+                  
+                    <i class="fa fa-book"></i> Zhihu
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+            <div class="links-of-blogroll-title">Links</div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.google.com/ncr" target="_blank">Google</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.quora.com/" target="_blank">Quora</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.zhihu.com/" target="_blank">Zhihu</a>
+                </li>
+              
+            </ul>
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#智能路由泡沫"><span class="nav-number">1.</span> <span class="nav-text">智能路由泡沫</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#看中脱机下载"><span class="nav-number">2.</span> <span class="nav-text">看中脱机下载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#泡沫破灭"><span class="nav-number">3.</span> <span class="nav-text">泡沫破灭</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#借给同事"><span class="nav-number">4.</span> <span class="nav-text">借给同事</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小度复活"><span class="nav-number">5.</span> <span class="nav-text">小度复活</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#刷机后干什么"><span class="nav-number">6.</span> <span class="nav-text">刷机后干什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结束"><span class="nav-number">7.</span> <span class="nav-text">结束</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">vigotseng</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=0.5.0"></script>
+
+
+
+  
+  
+<script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    NexT.motion.middleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+
+      if (CONFIG.sidebar.display === 'post' || CONFIG.sidebar.display === 'always') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          NexT.utils.displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"vigotseng"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+      <script src="/vendors/ua-parser-js/dist/ua-parser.min.js"></script>
+      <script src="/js/src/hook-duoshuo.js"></script>
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
